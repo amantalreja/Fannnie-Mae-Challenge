@@ -1,52 +1,52 @@
 import React from 'react';
-import TopPart from './TopPart';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import './App.css';
-function ScrollableTable() {
+import TopPart from './TopPart';
+const populateAndSortTable = (data, columnIndex, sortOrder) => {
+  const tableBody = document.querySelector('tbody');
+
+  // Clear any existing rows
+  tableBody.innerHTML = '';
+
+  // Sort the data first
+  const sortedData = [...data].sort((a, b) => {
+    const valueA = a[columnIndex].toLowerCase();
+    const valueB = b[columnIndex].toLowerCase();
+
+    if (sortOrder === 'asc') {
+      return valueA < valueB ? -1 : 1;
+    } else { // Descending
+      return valueA > valueB ? -1 : 1;
+    }
+  });
+
+  // Create rows and cells (populating the table)
+  sortedData.forEach(rowData => {
+    const row = tableBody.insertRow();
+    rowData.forEach(cellData => {
+      const cell = row.insertCell();
+      cell.textContent = cellData;
+      cell.style.border = '1px solid black';
+      cell.style.padding = '8px';
+    });
+  });
+};
+function ScrollableTable({givenData}) {
+  console.log(givenData);
   useEffect(() => {
-    // Function to populate the table
-    const populateTable = () => {
-      const tableBody = document.querySelector('tbody');
+    // Initial call (e.g., sort by first column ascending)
+    populateAndSortTable(givenData, 2, 'asc');
+  }, [givenData]);
 
-      // Sample data (replace with your actual data source)
-      const data = [
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-        ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
-      ];
+  // ... rest of your ScrollableTable component, including handleSort  ...
 
-      // Clear any existing rows
-      tableBody.innerHTML = '';
-
-      // Create rows and cells
-      data.forEach(rowData => {
-        const row = tableBody.insertRow();  // Create a row element
-        rowData.forEach(cellData => {
-          const cell = row.insertCell(); // Create a cell element
-          cell.textContent = cellData;
-          cell.style.border = '1px solid black';
-          cell.style.padding = '8px';
-        });
-
-      });
-    };
-
-    // Call the function to populate initially
-    populateTable();
-  }, []);
   return (
-    <div className="table-container" style={{ height: '100%', overflowY: 'auto'}}>
+    <div className="table-container table-hover" style={{ height: '100%', overflowY: 'auto'}}>
     <table className="table" style= {{marginLeft:"10px", width:'90%'}}>
         <thead style={{border:"0px"}}>
         <tr>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
+          <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>Column 1</th>
+          <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Column 1</th>
           <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
           <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
           <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
@@ -57,6 +57,7 @@ function ScrollableTable() {
       <tbody>
         {/* Add 19 more <tr> blocks below */}
         <tr>
+          <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
         </tr>
         <tr>
         </tr>
@@ -65,12 +66,30 @@ function ScrollableTable() {
     </div>
   );
 }
-function App() {
+function TopPartfunc() {
+  return (
+    <div style={{ margin: '10px' ,display: 'flex' }}>
+      <select style={{ flex: 1 }}> /* Make dropdown flexible */
+        <option value="first">First</option>
+        <option value="second">Second</option>
+        <option value="third">Third</option>
+      </select>
+      <div style={{ margin: '5px', width: '30%', height: '30px', border: '1px solid black' }}></div>
+      <div style={{ margin: '5px', width: '50px', height: '30px', border: '1px solid black' }}></div>
+    </div>
+  );
 
+}
+function App() {
+const give=[
+  ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
+  ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
+  // ... more rows with unique values
+];
   return (
     <div >
-    <TopPart/>
-    <ScrollableTable/>
+    <TopPartfunc/>
+    <ScrollableTable givenData={give}/>
     </div>
   );
 

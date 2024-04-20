@@ -1,6 +1,7 @@
 import React from 'react';
 import TopPart from './TopPart';
 import { useEffect } from 'react';
+import './App.css';
 function ScrollableTable() {
   useEffect(() => {
     // Function to populate the table
@@ -40,9 +41,9 @@ function ScrollableTable() {
     populateTable();
   }, []);
   return (
-    <div style={{ height: '400px', overflowY: 'auto', width: '600px' }}>
-      <table style={{ borderCollapse: 'collapse', width:'100%',margin:'10px'}}>
-        <thead>
+    <div className="table-container" style={{ height: '100%', overflowY: 'auto'}}>
+    <table className="table" style= {{marginLeft:"10px", width:'90%'}}>
+        <thead style={{border:"0px"}}>
         <tr>
           <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
           <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
@@ -67,7 +68,7 @@ function ScrollableTable() {
 function App() {
 
   return (
-    <div>
+    <div >
     <TopPart/>
     <ScrollableTable/>
     </div>

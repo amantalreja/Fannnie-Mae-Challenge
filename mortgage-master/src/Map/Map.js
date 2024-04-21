@@ -63,7 +63,7 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
 
 const colorScale = ["#B9EDDD", "#87CBB9", "#569DAA", "#577D86"];
 
-function Map({ setInput }) {
+function Map({ setInput, setTable2Data}) {
     const[state,setUSstate]=useState('Maryland')
     const [renderOnce, setRenderOnce] = useState(0);
     const [isLoading, setIsLoading] = useState(true); // Loading state

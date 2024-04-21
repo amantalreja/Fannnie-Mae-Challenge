@@ -57,6 +57,7 @@ function App() {
     return data.filter(row => row[0] !== null);
   }
   const [give, setInput] = useState([]);
+  const [table2Data,setTable2Data] = useState([[]]);
   const [isLoading, setIsLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
 
@@ -72,9 +73,32 @@ function App() {
           ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],        // ... more rows with unique values
         ];
         function filterRowsByFirstColumn(data, value) {
-          return data.filter(row => row[0].trim().localeCompare(value.trim())===0&&row[0].trim().length===value.trim().length);
+          return data.filter(row => row[0].trim().localeCompare(value.trim()) === 0 && row[0].trim().length === value.trim().length);
         }
-        csvData= filterRowsByFirstColumn(filterNulls(csvData),"Maryland")
+        csvData = filterRowsByFirstColumn(filterNulls(csvData), "Maryland")
+        setInput(filterNulls(csvData)); // Update state with CSV data
+        populateAndSortTable(filterNulls(csvData), 1, 'asc'); // Update state with CSV data
+      })
+      .catch(error => {
+        setError(error); // Store the error
+        populateAndSortTable([[[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]]], 1, 'asc');
+        setIsLoading(false);
+        console.log(error)
+      });
+      loadCSV('https://raw.githubusercontent.com/amantalreja/Fannnie-Mae-Challenge/main/mortgage-master/src/HousingAssistanceOwners.csv')
+      .then(csvData => {
+        console.log(csvData)
+        //setInput(filterNulls(csvData)); // Update state with CSV data
+        //populateAndSortTable(filterNulls(csvData),1,'asc'); // Update state with CSV data
+        const give = [
+          ['Row55 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
+          ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
+          ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],        // ... more rows with unique values
+        ];
+        function filterRowsByFirstColumn(data, value) {
+          return data.filter(row => row[0].trim().localeCompare(value.trim()) === 0 && row[0].trim().length === value.trim().length);
+        }
+        csvData = filterRowsByFirstColumn(filterNulls(csvData), "Maryland")
         setInput(filterNulls(csvData)); // Update state with CSV data
         populateAndSortTable(filterNulls(csvData), 1, 'asc'); // Update state with CSV data
       })
@@ -89,14 +113,20 @@ function App() {
   // Empty dependency array: Execute the effect only once on component mount
   return (
     <div >
-      <Map setInput={setInput} />
+      <Map setInput={[setInput,setTable2Data]} />
 
-      <div style={{display:"flex" }}>
-      <div style={{width:"75%",marginRight:"20px" }}><ScrollableTable givenData={give} style={{ width: "100px"}} /></div>
-        <div style={{width:"350px"}}>
-        <PieChart style={{}}/>
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "75%", marginRight: "20px" }}>
+          <ScrollableTable givenData={give} style={{ width: "100px" }} />
+        </div>
+        <div style={{ width: "350px" }}>
+          <PieChart style={{}} />
         </div>
       </div>
+      <div>
+      <ScrollableTable givenData={table2Data} style={{ width: "100px"}} />
+      </div>
+
     </div>
   );
 

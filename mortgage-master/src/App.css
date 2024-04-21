@@ -40,3 +40,9 @@ body{
   background-color: #104c54;  /* Slightly darker for contrast */
   border-radius: 8px;
 }
+.map-info-container{
+  font-size: 18px;
+}
+b{
+  color: rgb(215, 228, 113);
+}

@@ -12,7 +12,13 @@ const theme = createTheme({
 const data = [
   { id: 0, value: 10,},
   { id: 1, value: 15,},
-  { id: 2, value: 20,},
+  { id: 2, value: 0,},
+  {id: 3, value: 10,},
+  {id: 4, value: 10,},
+  {id: 5, value: 0,},
+  {id: 6, value: 0,},
+  {id: 7, value: 4,},
+
 ];
 
 export default function PieActiveArc() {
@@ -26,7 +32,7 @@ export default function PieActiveArc() {
           faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
         },
       ]}
-      height={200}
+      height={300}
     />
   );
 }

@@ -61,7 +61,7 @@ function App() {
   const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
-    loadCSV('https://raw.githubusercontent.com/amantalreja/Fannnie-Mae-Challenge/main/mortgage-master/src/testing.csv')
+    loadCSV('https://raw.githubusercontent.com/amantalreja/Fannnie-Mae-Challenge/main/mortgage-master/src/Disaster_Risk_Summary_Final.csv')
       .then(csvData => {
         console.log(csvData)
         //setInput(filterNulls(csvData)); // Update state with CSV data
@@ -71,6 +71,10 @@ function App() {
           ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
           ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],        // ... more rows with unique values
         ];
+        function filterRowsByFirstColumn(data, value) {
+          return data.filter(row => row[0].trim().localeCompare(value.trim())===0&&row[0].trim().length===value.trim().length);
+        }
+        csvData= filterRowsByFirstColumn(filterNulls(csvData),"Maryland")
         setInput(filterNulls(csvData)); // Update state with CSV data
         populateAndSortTable(filterNulls(csvData), 1, 'asc'); // Update state with CSV data
       })
@@ -87,10 +91,10 @@ function App() {
     <div >
       <Map setInput={setInput} />
 
-      <div style={{display:"flex",margin:"30px" }}>
-      <div style={{width:"80%",marginRight:"40px" }}><ScrollableTable givenData={give} style={{ width: "100px"}} /></div>
-        <div style={{width:"250px"}}>
-        <PieChart/>
+      <div style={{display:"flex" }}>
+      <div style={{width:"75%",marginRight:"20px" }}><ScrollableTable givenData={give} style={{ width: "100px"}} /></div>
+        <div style={{width:"350px"}}>
+        <PieChart style={{}}/>
         </div>
       </div>
     </div>

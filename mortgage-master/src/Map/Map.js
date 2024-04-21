@@ -64,10 +64,11 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
 const colorScale = ["#B9EDDD", "#87CBB9", "#569DAA", "#577D86"];
 
 function Map({ setInput }) {
-
+    const[state,setUSstate]=useState('Maryland')
     const [renderOnce, setRenderOnce] = useState(0);
     const [isLoading, setIsLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
+    const [total,setTotal] =useState([10,20,30,40,50,60,10,20,30,50,40]);
     const some = () => {
 
         let width = parseInt(d3.select(document.querySelector('.viz')).style('width'))
@@ -118,17 +119,35 @@ function Map({ setInput }) {
             .on("click", handleZoom)
 
         function handleZoom(stateFeature) {
-            loadCSV('https://raw.githubusercontent.com/amantalreja/Fannnie-Mae-Challenge/main/mortgage-master/src/testing.csv')
+            function filterRowsByFirstColumn(data, value) {
+                return data.filter(row => row[0].trim().localeCompare(value.trim())===0&&row[0].trim().length===value.trim().length);
+              }
+              function calculateColumnSums(data) {
+                const columnSums = data.reduce((sums, row) => {
+                  for (let i = 0; i < row.length; i++) {
+                    sums[i] = (sums[i] || 0) + Number(row[i]);
+                  }
+                  return sums;
+                }, []);
+
+                return columnSums;
+              }
+            loadCSV('https://raw.githubusercontent.com/amantalreja/Fannnie-Mae-Challenge/main/mortgage-master/src/Disaster_Risk_Summary_Final.csv')
                 .then(csvData => {
-                    console.log(csvData)
-                    //setInput(filterNulls(csvData)); // Update state with CSV data
+                 //setInput(filterNulls(csvData)); // Update state with CSV data
                     //populateAndSortTable(filterNulls(csvData),1,'asc'); // Update state with CSV data
+
                     const give = [
                         ['Row55 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
                         ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
                         ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],        // ... more rows with unique values
                     ];
+                    setUSstate(stateFeature.target.__data__.properties.NAME);
+                    csvData= filterRowsByFirstColumn(filterNulls(csvData),stateFeature.target.__data__.properties.NAME)
+                    setTotal(calculateColumnSums(filterNulls(csvData)))
+
                     setInput(filterNulls(csvData)); // Update state with CSV data
+
                     populateAndSortTable(filterNulls(csvData), 1, 'asc'); // Update state with CSV data
                 })
                 .catch(error => {
@@ -146,28 +165,37 @@ function Map({ setInput }) {
     }
 
     // A random color generator
-    useEffect(() => { if (renderOnce === 0) { some(); setRenderOnce(1); console.log(renderOnce) } }, [renderOnce, some]);
+    useEffect(() => { if (renderOnce === 0) { some(); setRenderOnce(1)}; console.log("MEEE",total) }, [renderOnce, some,total]);
     const colorGenerator = () => {
         return colorScale[Math.floor(Math.random() * 4)]
     }
 
 
     return (
+        <div style={{textAlign:'center',marginTop: '20px'}}>
+            <h1 style={{color:'white'}}> Mortgage Master</h1>
         <div style={{ display: 'flex' }}>
-            <div style={{ color: "black", width: "250px" }}>
+            <div style={{ color: "white", width: "250px" }}>
+
 
 
                 <div className="map-info-container">
-                    <h1>Map</h1>
-                    <p>Text information 1</p>
-                    <p>Text information 2</p>
-                    <p>Text information 3</p>
-                    <p>Text information 2</p>
-                    <p>Text information 3</p>
+                    <h1>{state}</h1>
+                    <p style={{ color: 'white' }}>Total Disaster Count: </p>
+                    <p style={{ color: 'white' }}>Biological <b>{total[2]}</b></p>
+                    <p style={{ color: 'white' }}>Drought <b>{total[3]}</b></p>
+                    <p style={{ color: 'white' }}>Earthquake <b>{total[4]}</b></p>
+                    <p style={{ color: 'white' }}>Fire <b>{total[5]}</b></p>
+                    <p style={{ color: 'white' }}>Flood <b>{total[6]}</b></p>
+                    <p style={{ color: 'white' }}>Hurricane <b>{total[7]}</b></p>
+                    <p style={{ color: 'white' }}>Severe Storm <b>{total[8]}</b></p>
+                    <p style={{ color: 'white' }}>Snow Storm <b>{total[9]}</b></p>
+                    <p style={{ color: 'white' }}>Tornado <b>{total[10]}</b></p>
                 </div>
             </div>
             <div class="viz" style={{ flex: 1 }}></div>
 
+        </div>
         </div>
     );
 }

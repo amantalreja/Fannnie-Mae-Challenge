@@ -46,13 +46,18 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
       <table className="table" style= {{height:"100px",marginLeft:"10px", width:'90%'}}>
           <thead style={{border:"0px"}}>
           <tr>
-            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>Column 1</th>
-            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Column 1</th>
-            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 2, 'asc');}}>Column 1</th>
-            <th style={{ border: '1px solid black', padding: '8px' }} >Column 1
-            <img src={arrow} alt="Sort up" style={{ width: 16, height: 16, marginLeft: 5 }} /> </th>
-            <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-
+          <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>State</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>County</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Biological</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Drought</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} >EarthQuake</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} >Fire</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} >Flood</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} >Hurricane</th>
+            <th style={{ border: '1px solid black', padding: '8px' }}>Severe Storm</th>
+            <th style={{ border: '1px solid black', padding: '8px' }}>Snow Storm</th>
+            <th style={{ border: '1px solid black', padding: '8px' }}>Tornado</th>
+            <th style={{ border: '1px solid black', padding: '8px' }}>Risk Score</th>
             {/* Add 5 more <th /> elements for the remaining columns */}
           </tr>
         </thead>
@@ -70,8 +75,6 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
           <tr>
             <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
           </tr>
-
-
         </tbody>
         </table>
       </div>

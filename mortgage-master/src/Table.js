@@ -34,23 +34,25 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
     console.log(givenData);
     useEffect(() => {
       // Initial call (e.g., sort by first column ascending)
-      populateAndSortTable(givenData, 2, 'asc');
+
+      populateAndSortTable(givenData, 0, 'asc');
     }, [givenData]);
+
 
     // ... rest of your ScrollableTable component, including handleSort  ...
 
     return (
-      <div className="table-container table-hover" style={{ height: '100%', overflowY: 'auto'}}>
-      <table className="table" style= {{marginLeft:"10px", width:'90%'}}>
+      <div className="table-container" style={{ height: '300px', overflowY: 'auto' }}>
+      <table className="table" style= {{height:"100px",marginLeft:"10px", width:'90%'}}>
           <thead style={{border:"0px"}}>
           <tr>
             <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>Column 1</th>
             <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Column 1</th>
+            <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 2, 'asc');}}>Column 1</th>
             <th style={{ border: '1px solid black', padding: '8px' }} >Column 1
             <img src={arrow} alt="Sort up" style={{ width: 16, height: 16, marginLeft: 5 }} /> </th>
             <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-            <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-            <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
+
             {/* Add 5 more <th /> elements for the remaining columns */}
           </tr>
         </thead>
@@ -60,7 +62,16 @@ const populateAndSortTable = (data, columnIndex, sortOrder) => {
             <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
           </tr>
           <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
           </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
+          </tr>
+
+
         </tbody>
         </table>
       </div>

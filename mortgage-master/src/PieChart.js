@@ -17,7 +17,6 @@ const data = [
 
 export default function PieActiveArc() {
   return (
-    <div style={{ margin: '10px' ,display: 'flex'}}>
     <PieChart
     labelFontSize={40}
       series={[
@@ -29,11 +28,5 @@ export default function PieActiveArc() {
       ]}
       height={200}
     />
-    <div>
-    <p style={{color:"red",marginTop: "30px"}}> SERIEEEES</p>
-    <p style={{color:"blue"}}> SERIEEEES</p>
-    <p style={{color:"green"}}> SERIEEEES</p>
-    </div>
-    </div>
   );
 }

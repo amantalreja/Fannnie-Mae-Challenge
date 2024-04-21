@@ -1,95 +1,49 @@
-import React from 'react';
-import { useEffect,useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TopPart from './TopPart';
-const populateAndSortTable = (data, columnIndex, sortOrder) => {
-  const tableBody = document.querySelector('tbody');
-
-  // Clear any existing rows
-  tableBody.innerHTML = '';
-
-  // Sort the data first
-  const sortedData = [...data].sort((a, b) => {
-    const valueA = a[columnIndex].toLowerCase();
-    const valueB = b[columnIndex].toLowerCase();
-
-    if (sortOrder === 'asc') {
-      return valueA < valueB ? -1 : 1;
-    } else { // Descending
-      return valueA > valueB ? -1 : 1;
-    }
-  });
-
-  // Create rows and cells (populating the table)
-  sortedData.forEach(rowData => {
-    const row = tableBody.insertRow();
-    rowData.forEach(cellData => {
-      const cell = row.insertCell();
-      cell.textContent = cellData;
-      cell.style.border = '1px solid black';
-      cell.style.padding = '8px';
+import Map from './Map/Map';
+import ScrollableTable from './Table';
+import PieChart from './PieChart';
+import Papa from 'papaparse';
+function loadCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(filePath, {
+      download: true, // If the file is remote
+      header: true,   // Assume the first row contains headers
+      dynamicTyping: true, // Automatically infer data types
+      complete: (results) => {
+        resolve(results.data);  // Resolve with the 2D array
+      },
+      error: (error) => {
+        reject(error);
+             // Reject with the error
+      }
     });
   });
-};
-function ScrollableTable({givenData}) {
-  console.log(givenData);
-  useEffect(() => {
-    // Initial call (e.g., sort by first column ascending)
-    populateAndSortTable(givenData, 2, 'asc');
-  }, [givenData]);
-
-  // ... rest of your ScrollableTable component, including handleSort  ...
-
-  return (
-    <div className="table-container table-hover" style={{ height: '100%', overflowY: 'auto'}}>
-    <table className="table" style= {{marginLeft:"10px", width:'90%'}}>
-        <thead style={{border:"0px"}}>
-        <tr>
-          <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 0, 'asc');}}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }} onClick={()=>{populateAndSortTable(givenData, 1, 'asc');}}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-          <th style={{ border: '1px solid black', padding: '8px' }}>Column 1</th>
-          {/* Add 5 more <th /> elements for the remaining columns */}
-        </tr>
-      </thead>
-      <tbody>
-        {/* Add 19 more <tr> blocks below */}
-        <tr>
-          <td style={{ border: '1px solid black', padding: '8px' }}>Row 1 - Data 1</td>
-        </tr>
-        <tr>
-        </tr>
-      </tbody>
-      </table>
-    </div>
-  );
 }
-function TopPartfunc() {
-  return (
-    <div style={{ margin: '10px' ,display: 'flex' }}>
-      <select style={{ flex: 1 }}> /* Make dropdown flexible */
-        <option value="first">First</option>
-        <option value="second">Second</option>
-        <option value="third">Third</option>
-      </select>
-      <div style={{ margin: '5px', width: '30%', height: '30px', border: '1px solid black' }}></div>
-      <div style={{ margin: '5px', width: '50px', height: '30px', border: '1px solid black' }}></div>
-    </div>
-  );
 
-}
 function App() {
-const give=[
+  loadCSV('testing.csv')
+  .then(csvData => {
+    console.log("CSV Data Structure:", csvData);
+    // ... (Do things with your CSV data here)
+  })
+  .catch(error => {
+    console.error("Error loading CSV:", error);
+  });
+const [give,setInput] = useState([
   ['Row 1 - Data 1', 'Row 1 - Data 2', 'Row 1 - Data 3', 'Row 1 - Data 4', 'Row 1 - Data 5', 'Row 1 - Data 6'],
   ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
+  ['aow 2 - Data 1', 'tow 2 - Data 2', 'Row 2 - Data 3', 'Row 2 - Data 4', 'Row 2 - Data 5', 'Row 2 - Data 6'],
   // ... more rows with unique values
-];
+]);
+
   return (
     <div >
-    <TopPartfunc/>
+    <TopPart/>
+    <Map setInput={setInput}/>
     <ScrollableTable givenData={give}/>
+    <PieChart/>
     </div>
   );
 
